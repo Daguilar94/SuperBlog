@@ -1,0 +1,16 @@
+
+
+<% @posts.each do |post| %>
+  <div class="well">
+    <%=link_to post_path(post.id) do%>
+    <%= post.title %> <br>
+    <% end %>
+    <%= post.content %> <br>
+    <%= post.created_at.strftime("%B %d, %Y") %> <br>
+    <%= post.user.email %> <br>
+    <% if post.user == current_user %>
+    <%= link_to "<span class='glyphicon glyphicon-pencil'><span>".html_safe,  edit_user_post_path(current_user, post.id) %>
+    <%= link_to "<span class='glyphicon glyphicon-trash'><span>".html_safe, post, method: :delete, data: { confirm: "¿Estás seguro de eliminar este post?" }, class: "destroy-room-btn" %>
+    <%end%>
+  </div>
+<%end%>
