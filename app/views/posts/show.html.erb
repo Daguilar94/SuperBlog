@@ -13,3 +13,36 @@
   <%= @post.content %> <br>
   <%= @post.user.email %> <br>
 </div>
+<h2>Comments</h2>
+<div class="comments-container">
+</div>
+
+<%= form_for [@post, @comment], class:"new-comment" do |f| %>
+  <%=f.text_area :content, size: "60x2"%> <br>
+  <%=f.submit "Comment", :disable_with => 'Creating...', class: "btn btn-primary" %>
+<% end %>
+
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function(){
+    loadComments()
+  })
+  function loadComments(){
+    $.ajax({
+      method: "GET",
+      contentType: 'application/json',
+      url: "<%= post_comments_path @post %>"
+    }).done(function(data, status, xhr){
+      console.log(data);
+      drawComments(data)
+    }).fail(function(xhr, satus, error){
+      alert('Algo salio mal con el request ajax')
+    })
+  }
+
+  function drawComments(data){
+    data.forEach(function(comment){
+      var commentToAdd = '<p>' + comment.content + '</p>'
+      $('.comments-container').append(commentToAdd)
+    })
+  }
+</script>
