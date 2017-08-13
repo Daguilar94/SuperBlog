@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = Post.all.order(created_at: :asc)
+    @posts = Post.all.order(created_at: :desc)
+
   end
 
   def show
@@ -19,6 +20,7 @@ class PostsController < ApplicationController
     @post = Post.new safe_params
     @post.user = current_user
     if @post.save
+      flash[:success] = "Post successfully created"
       redirect_to user_posts_path
     else
       render :new
@@ -28,6 +30,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find params[:id]
     if @post.update safe_params
+      flash[:success] = "Post successfully updated"
       redirect_to user_posts_path
     else
       render :edit
@@ -35,8 +38,13 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    del = Post.find params[:id]
-    del.destroy
+    del_post = Post.find params[:id]
+    del_coms = Comment.where("post_id = ?", params[:id])
+    del_coms.each do |comment|
+      comment.destroy
+    end
+    del_post.destroy
+    flash[:success] = "Post successfully deleted"
     redirect_to user_posts_path
   end
 

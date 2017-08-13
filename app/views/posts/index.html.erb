@@ -1,3 +1,11 @@
+<% puts flash %>
+<% flash.each do |name, msg| -%>
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <%= msg %>
+</div>
+<% end %>
+
 <% @posts.each do |post| %>
   <div class="well">
     <%=link_to post_path(post.id) do%>
@@ -19,3 +27,9 @@
     <%end%>
   </div>
 <%end%>
+
+<script type="text/javascript">
+  $('.close').click(function(){
+    $('.alert').fadeOut(300)
+  })
+</script>
