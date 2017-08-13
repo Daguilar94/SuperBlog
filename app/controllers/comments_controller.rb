@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   def index
     post = Post.find params[:post_id]
     @comments = post.comments
-    render json: @comments
+    render :json => @comments, :include => [:user]
   end
   def create
     @comment = Comment.new (safe_params)

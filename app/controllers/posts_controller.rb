@@ -2,11 +2,12 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :asc)
   end
 
   def show
     @post = Post.find params[:id]
+    @users = User.all
     @comment = Comment.new
   end
 

@@ -14,12 +14,17 @@
   <%= @post.user.email %> <br>
 </div>
 <h2>Comments</h2>
+<% if @post.comments.empty? %>
+  <p>There are no comments yet</p>
+<% end %>
 <div class="comments-container">
 </div>
 
-<%= form_for [@post, @comment], class:"new-comment" do |f| %>
-  <%=f.text_area :content, size: "60x2"%> <br>
-  <%=f.submit "Comment", :disable_with => 'Creating...', class: "btn btn-primary" %>
+<%if user_signed_in?%>
+  <%= form_for [@post, @comment], class:"new-comment" do |f| %>
+    <%=f.text_area :content, size: "60x2"%> <br>
+    <%=f.submit "Comment", :disable_with => 'Creating...', class: "btn btn-primary" %>
+  <% end %>
 <% end %>
 
 <script type="text/javascript">
@@ -32,7 +37,6 @@
       contentType: 'application/json',
       url: "<%= post_comments_path @post %>"
     }).done(function(data, status, xhr){
-      console.log(data);
       drawComments(data)
     }).fail(function(xhr, satus, error){
       alert('Algo salio mal con el request ajax')
@@ -40,9 +44,10 @@
   }
 
   function drawComments(data){
+    var commentsToAdd = ''
     data.forEach(function(comment){
-      var commentToAdd = '<p>' + comment.content + '</p>'
-      $('.comments-container').append(commentToAdd)
+      commentsToAdd += '<p>' + comment.content + '</p>' + '<h5>' + comment.user.email + '</h5>'
     })
+    $('.comments-container').html(commentsToAdd)
   }
 </script>

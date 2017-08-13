@@ -3,9 +3,16 @@
     <%=link_to post_path(post.id) do%>
     <%= post.title %> <br>
     <% end %>
-    <%= post.content %> <br>
-    <%= post.created_at.strftime("%B %d, %Y") %> <br>
-    <%= post.user.email %> <br>
+<!-- post.created_at.strftime("%B %d, %Y") -->
+    <%='Publicado por ' + post.user.email + ' hace aproximadamente ' +  time_ago_in_words(post.created_at) %> <br>
+
+    <%if post.content.length > 250 %> <!-- Se puede quitar cuando se ponga la validacion-->
+    <%= post.content[0..250] + '...' %> <br>
+    <%else%><!-- Se puede quitar cuando se ponga la validacion-->
+    <%= post.content %> <br><!-- Se puede quitar cuando se ponga la validacion-->
+    <% end %><!-- Se puede quitar cuando se ponga la validacion-->
+    <!-- <%= post.created_at.strftime("%B %d, %Y") %> <br>
+    <%= post.user.email %> <br> -->
     <% if post.user == current_user %>
     <%= link_to "<span class='glyphicon glyphicon-pencil'><span>".html_safe,  edit_user_post_path(current_user, post.id) %>
     <%= link_to "<span class='glyphicon glyphicon-trash'><span>".html_safe, user_post_path(current_user, post),:data => {:confirm => "You sure?",:method => "delete"} %>

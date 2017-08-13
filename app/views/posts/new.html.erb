@@ -1,7 +1,7 @@
 <% if !@post.errors.messages.empty?%>
   <% @post.errors.full_messages.each do |error| %>
-  <p1><%= error %> </p1> <br>  
+    <p1><%= error %> </p1> <br>
   <%end%>
 <% end %>
-
-  <%= render 'new_post_form' %>
+<%= link_to "Back", user_posts_path(current_user)%>
+<%= render 'new_post_form' %>
