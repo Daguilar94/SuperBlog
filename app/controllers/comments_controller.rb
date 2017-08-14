@@ -5,16 +5,17 @@ class CommentsController < ApplicationController
     render :json => @comments, :include => [:user]
   end
   def create
-    # safe_params[:content] = markdown(safe_params[:content])
-    # puts "OOOOOOOOOEEEEEEEEEEEEE + #{safe_params[:content]}"
     @comment = Comment.new (safe_params)
     @post = Post.find params[:post_id]
-    # @user = @post.user
     @user = current_user
     @comment.user_id = @user.id
     @comment.save
     @post.comments.push @comment
-    redirect_to user_post_path(@user, @post)
+    # redirect_to user_post_path(@user, @post)
+    respond_to do |format|
+      format.html {redirect_to user_post_path(@user, @post)}
+      format.js
+    end
   end
 
   protected

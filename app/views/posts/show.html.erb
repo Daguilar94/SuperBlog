@@ -21,7 +21,7 @@
 </div>
 
 <%if user_signed_in?%>
-  <%= form_for [@post, @comment], class:"new-comment" do |f| %>
+  <%= form_for [@post, @comment], remote: true, class:"new-comment" do |f| %>
     <%=f.text_area :content, size: "60x2"%> <br>
     <%=f.submit "Comment", :disable_with => 'Creating...', class: "btn btn-primary" %>
   <% end %>
@@ -50,4 +50,6 @@
     })
     $('.comments-container').html(commentsToAdd)
   }
+
+
 </script>
