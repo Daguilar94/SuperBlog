@@ -3,5 +3,5 @@
     <p1><%= error %> </p1> <br>
   <%end%>
 <% end %>
-<%= link_to "Back", user_posts_path(current_user)%>
+<%= link_to "Back", user_posts_path(current_user), class:"back-link-50"%>
 <%= render 'edit_post_form' %>

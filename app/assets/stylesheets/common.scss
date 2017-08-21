@@ -1,0 +1,68 @@
+.navbar-header {
+  padding-top: 5px;
+  font-size: 25px;
+}
+
+.navbar-header a:hover {
+  text-decoration: none
+}
+
+.navbar-left {
+  font-size: 18px;
+}
+
+.sign-area, .new-edit-post-area {
+  margin: auto;
+  line-height: 200%;
+  text-align: center;
+  padding: 5px 10px;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.new-edit-post-area {
+  line-height: 100%;
+}
+
+div .actions {
+  margin-top: 10px;
+}
+
+.txtarea {
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.txtarea-edit-new {
+  margin-top: 5px;
+}
+
+.back-link {
+  align-self: flex-start;
+  margin-left: 12%;
+}
+
+.back-link-50 {
+  align-self: flex-start;
+  margin-left: 26%;
+}
+
+.errors {
+  width: 50%;
+  margin: auto;
+  color: red;
+  padding: 5px 10px;
+}
+
+.sign-up-errors {
+  line-height: 80%;
+}
+
+#error_explanation h2 {
+display: none;
+}
+
+#error_explanation p {
+  color: red;
+}

@@ -21,4 +21,5 @@ class CommentsController < ApplicationController
   def safe_params
       params.require(:comment).permit(:content, :post_id)
   end
+  
 end

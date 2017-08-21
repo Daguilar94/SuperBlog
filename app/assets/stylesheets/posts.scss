@@ -1,3 +1,40 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.flex-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.post-container {
+  border-radius: 10px;
+  margin: 5px 0px;
+  padding: 5px 10px;
+  width: 80%;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.post-container h2 {
+  color: #337ab7;
+}
+
+.post-container h2:hover {
+  text-decoration: none;
+}
+
+.post-container h5 {
+  color: #999999;
+}
+
+.post-container h5 span {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.post-container p {
+  font-size: 16px;
+  color: #464646;
+}

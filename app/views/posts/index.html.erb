@@ -1,31 +1,32 @@
-<% puts flash %>
 <% flash.each do |name, msg| -%>
 <div class="alert alert-success alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <%= msg %>
 </div>
 <% end %>
-
-<% @posts.each do |post| %>
-  <div class="well">
-    <%=link_to post_path(post.id) do%>
-    <%= post.title %> <br>
-    <% end %>
-    <%='Publicado por ' + post.user.email + ' hace aproximadamente ' +  time_ago_in_words(post.created_at) %> <br>
-    <%if post.content.length > 250 %> <!-- Se puede quitar cuando se ponga la validacion-->
-    <%= markdown(post.content[0..250] + '...') %> <br>
-    <%else%><!-- Se puede quitar cuando se ponga la validacion-->
-    <%= markdown(post.content) %> <br><!-- Se puede quitar cuando se ponga la validacion-->
-    <% end %><!-- Se puede quitar cuando se ponga la validacion-->
-    <!-- <%= post.created_at.strftime("%B %d, %Y") %> <br>
-    <%= post.user.email %> <br> -->
-    <% if post.user == current_user %>
-    <%= link_to "<span class='glyphicon glyphicon-pencil'><span>".html_safe,  edit_user_post_path(current_user, post.id) %>
-    <%= link_to "<span class='glyphicon glyphicon-trash'><span>".html_safe, user_post_path(current_user, post),:data => {:confirm => "You sure?",:method => "delete"} %>
+<div class="flex-container">
+  <%if @posts.empty?%>
+    <h2>There are no posts yet</h2>
+  <%else%>
+    <%@posts.each do |post|%>
+      <div class="post-container">
+        <%=link_to post_path(post.id) do%>
+          <h2><%= post.title %></h2>
+        <% end %>
+        <h5>Publicado por <span><%=post.user.email%></span> hace aproximadamente <%=time_ago_in_words(post.created_at)%> </h5>
+        <%if post.content.length > 250 %> <!-- Se puede quitar cuando se ponga la validacion-->
+          <p><%= markdown(post.content[0..250] + '...') %></p>
+        <%else%><!-- Se puede quitar cuando se ponga la validacion-->
+          <p><%= markdown(post.content) %></p> <!-- Se puede quitar cuando se ponga la validacion-->
+        <% end %><!-- Se puede quitar cuando se ponga la validacion-->
+        <% if post.user == current_user %>
+          <%= link_to "<span class='glyphicon glyphicon-pencil'><span>".html_safe,  edit_user_post_path(current_user, post.id) %>
+          <%= link_to "<span class='glyphicon glyphicon-trash'><span>".html_safe, user_post_path(current_user, post),:data => {:confirm => "You sure?",:method => "delete"} %>
+        <%end%>
+      </div>
     <%end%>
-  </div>
-<%end%>
-
+  <%end%>
+</div>
 <script type="text/javascript">
   $('.close').click(function(){
     $('.alert').fadeOut(300)

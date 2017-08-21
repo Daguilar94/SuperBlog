@@ -1,9 +1,11 @@
+<div class="new-edit-post-area">
 <h1>Edit Post</h1>
 
 <%= form_for @post, :url => user_post_path(current_user, @post) do |f| %>
   <%= f.label :title, "Title" %> <br>
   <%= f.text_field :title, class: "form-control" %> <br>
   <%= f.label :title, "Content" %> <br>
-  <%= f.text_area :content, size: "60x5", class: "form-control" %> <br>
+  <%= f.text_area :content, size: "60x5", class: "form-control txtarea txtarea-edit-new" %> <br>
   <%= f.submit "Editar", class: "btn btn-primary"  %>
 <% end %>
+</div>

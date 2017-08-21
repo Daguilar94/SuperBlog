@@ -1,53 +1,60 @@
-<% if user_signed_in? %>
-  <%= link_to "Back", user_posts_path(current_user)%>
-  <% if @post.user == current_user %>
-    <%= link_to "<span class='glyphicon glyphicon-pencil'><span>".html_safe,  edit_user_post_path(current_user, @post.id) %>
-    <%= link_to "<span class='glyphicon glyphicon-trash'><span>".html_safe, user_post_path(current_user, @post),:data => {:confirm => "You sure?",:method => "delete"} %>
-  <%end%>
-<%else%>
-    <%= link_to "Back", posts_path%>
-<%end%>
 
-<div class ="well">
-  <%= @post.title %> <br>
-  <%= markdown(@post.content) %> <br>
-  <%= @post.user.email %> <br>
-</div>
-<h2>Comments</h2>
-<% if @post.comments.empty? %>
-  <p>There are no comments yet</p>
-<% end %>
-<div class="comments-container">
-</div>
+    <div class="flex-container">
+      <% if user_signed_in? %>
+        <%= link_to "Back", user_posts_path(current_user), class:"back-link"%>
+      <%else%>
+        <%= link_to "Back", posts_path, class:"back-link"%>
+      <%end%>
+      <div class="post-container">
+        <h2><%= @post.title %> </h2>
+        <p><%= markdown(@post.content) %></p>
+        <h5><span><%= @post.user.email %> </span></h5>
+        <% if @post.user == current_user %>
+          <%= link_to "<span class='glyphicon glyphicon-pencil'><span>".html_safe,  edit_user_post_path(current_user, @post.id) %>
+          <%= link_to "<span class='glyphicon glyphicon-trash'><span>".html_safe, user_post_path(current_user, @post),:data => {:confirm => "You sure?",:method => "delete"} %>
+        <%end%>
+      </div>
+      <div class="comments-area">
+        <h2>Comments</h2>
+        <% if @post.comments.empty? %>
+        <p>There are no comments yet</p>
+        <% end %>
+        <div class="comments-container">
+        </div>
 
-<%if user_signed_in?%>
-  <%= form_for [@post, @comment], class:"new-comment" do |f| %>
-    <%=f.text_area :content, size: "60x2"%> <br>
-    <%=f.submit "Comment", :disable_with => 'Creating...', class: "btn btn-primary" %>
-  <% end %>
-<% end %>
-
-<script type="text/javascript">
-  $(document).on('turbolinks:load', function(){
-    loadComments()
-  })
-  function loadComments(){
-    $.ajax({
-      method: "GET",
-      contentType: 'application/json',
-      url: "<%= post_comments_path @post %>"
-    }).done(function(data, status, xhr){
-      drawComments(data)
-    }).fail(function(xhr, satus, error){
-      alert('Algo salio mal con el request ajax')
+    <%if user_signed_in?%>
+    <%= form_for [@post, @comment], class:"new-comment" do |f| %>
+    <%=f.text_area :content, size: "60x3", class:"form-control txtarea"%>
+    <%=f.submit "Comment", :disable_with => 'Creating...', class: "btn btn-primary actions" %>
+    <% end %>
+    <% end %>
+    </div>
+  </div>
+    <script type="text/javascript">
+    $(document).on('turbolinks:load', function(){
+      loadComments()
     })
-  }
+    function loadComments(){
+      $.ajax({
+        method: "GET",
+        contentType: 'application/json',
+        url: "<%= post_comments_path @post %>"
+      }).done(function(data, status, xhr){
+        drawComments(data)
+      }).fail(function(xhr, satus, error){
+        alert('Algo salio mal con el request ajax')
+      })
+    }
 
-  function drawComments(data){
-    var commentsToAdd = ''
-    data.forEach(function(comment){
-      commentsToAdd += '<h6>' + comment.content + '<h6><h5>' + comment.user.email + '</h5>'
-    })
-    $('.comments-container').html(commentsToAdd)
-  }
-</script>
+    function drawComments(data){
+      var commentsToAdd = ''
+      data.forEach(function(comment){
+        commentsToAdd += '<div class="comment-container"><h5><span>' + comment.user.email + '</span> comentó el <span>' + parseDate(comment.created_at) + '</span></h5><p>' + comment.content + '</p></div>'
+      })
+      $('.comments-container').html(commentsToAdd)
+    }
+
+    function parseDate(createdAt) {
+      return createdAt.replace(/\w\d\d\D\d\d\D\d\d\D\d\d\d\w/, '')
+    }
+    </script>
